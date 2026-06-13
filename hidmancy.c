@@ -1,6 +1,8 @@
 #include <furi.h>
 #include <gui/gui.h>
 
+#include "hid.h"
+
 static void hidmancy_draw_callback(Canvas* canvas, void* context) {
     UNUSED(context);
 
@@ -18,7 +20,9 @@ int32_t hidmancy_app(void* p) {
     Gui* gui = furi_record_open(RECORD_GUI);
     gui_add_view_port(gui, view_port, GuiLayerFullscreen);
 
-    furi_delay_ms(3000);
+    configure_usb_as_hid();
+    type_string("Beans");
+    revert_usb_configuration();
 
     gui_remove_view_port(gui, view_port);
     view_port_free(view_port);
